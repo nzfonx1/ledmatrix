@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+   
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9,IE=edge,chrome=1" env="gcf" />
+   
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/highcharts.js"></script>
+    <script src="/js/modules/exporting.js"></script>
+    <script src="/js/CFInstall.min.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/led.css">
+    <link rel="stylesheet" type="text/css" href="/css/ledslogic.css">
+
+    <!--[if IE]>
+    // tell IE to reload everything each time
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <script>
+     // The conditional ensures that this code will only execute in IE,
+     // Therefore we can use the IE-specific attachEvent without worry
+     window.attachEvent("onload", function() {
+       CFInstall.check({
+         mode: "inline", // the default
+         node: "prompt"
+         // activate plugin and reload page
+        ,onmissing: function() { CFInstall.require(); window.location.reload() }
+       });
+     });
+    </script>
+  <![endif]-->
+    
+</head>
+<body style="background-image:url('/images/wallpaper.png');">
+<style type="text/css">
+    /* hide hc stuff */
+    .highcharts-button {
+        display:none;
+    }
+    text:last {
+        display: none;
+    }
+</style>
+<div id="prompt"></div>
+<div id="container" style="min-width: 1220px; height: 800px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+$(function () {
+     // Radialize the colors
+    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+        return {
+            radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+            ]
+        };
+    });
+        var colors = Highcharts.getOptions().colors,
+            categories = ['Stazione 0', 'Stazione 1', 'Stazione 2'],
+            name = 'Scarti',
+            data = [{
+                    y: 50,
+                    color: colors[0],
+                    drilldown: {
+                        name: 'Stazione 0',
+                        categories: ['Contatore 0', 'Contatore 1', 'Contatore 2', 'Contatore 3','Contatore 4', 'Contatore 5', 'Contatore 6', 'Contatore 7','Contatore 8'],
+                        data: [30, 1, 1,1,1,1,2,1,1, 10],
+                        color: colors[0]
+                    }
+                }, {
+                    y: 20,
+                    color: colors[1],
+                    drilldown: {
+                        name: 'Stazione 1',
+                        categories: ['Contatore 0', 'Contatore 1', 'Contatore 2', 'Contatore 3','Contatore 4', 'Contatore 5', 'Contatore 6', 'Contatore 7','Contatore 8'],
+                        data: [1,2,3,2,1,1,2,3,2,4],
+                        color: colors[1]
+                    }
+                }, {
+                    y: 30,
+                    color: colors[2],
+                    drilldown: {
+                        name: 'Stazione 2',
+                        categories: ['Contatore 0', 'Contatore 1', 'Contatore 2', 'Contatore 3','Contatore 4', 'Contatore 5', 'Contatore 6', 'Contatore 7','Contatore 8'],
+                        data: [1,2,3,2,5,1,7,3,2,4],
+                        color: colors[2]
+                    }
+                }
+                ];
+    
+    
+        // Build the data arrays
+        var browserData = [];
+        var versionsData = [];
+        for (var i = 0; i < data.length; i++) {
+    
+            // add browser data
+            browserData.push({
+                name: categories[i],
+                y: data[i].y,
+                color: data[i].color
+            });
+    
+            // add version data
+            for (var j = 0; j < data[i].drilldown.data.length; j++) {
+                var brightness = 0.2 - (j / data[i].drilldown.data.length) / 5 ;
+                versionsData.push({
+                    name: data[i].drilldown.categories[j],
+                    y: data[i].drilldown.data[j],
+                    color: Highcharts.Color(data[i].color).brighten(brightness).get()
+                });
+            }
+        }
+    
+        // Create the chart
+        $('#container').highcharts({
+            chart: {
+                type: 'pie',
+                backgroundColor: 'transparent'
+            },
+            title: {
+                text: 'Percentuali di scarto',
+                style: {color: '#3E576F',
+    fontSize: '26px'},
+            },
+            yAxis: {
+                title: {
+                    text: 'Totale'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    shadow: false,
+                    center: ['50%', '50%'],
+                     animation: {
+                    duration: 2500,
+                     easing: 'easeOutBounce'
+                }
+                }
+            },
+            tooltip: {
+                valueSuffix: '%'
+            },
+            series: [{
+                name: 'Contatori',
+                data: browserData,
+                size: '57%',
+                dataLabels: {
+                    formatter: function() {
+                        return this.y > 5 ? this.point.name : null;
+                    },
+                    color: 'white',
+                    shadow: true,
+                    distance: -70,
+                     style: { fontSize: '16px',fontWeight: 'bold'}
+                }
+            }, {
+                name: 'Scarto',
+                data: versionsData,
+                size: '80%',
+                innerSize: '60%',
+                dataLabels: {
+                    formatter: function() {
+                        // display only if larger than 1
+                        return this.y > 0.2 ? '<b>'+ this.point.name +':</b> '+ this.y +'%'  : null;
+                    }
+                }
+            }]
+        });
+    });
+</script>
+
+</body>
+</html>
