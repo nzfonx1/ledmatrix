@@ -1,0 +1,117 @@
+
+body {
+    background: none repeat scroll 0 0 #000;
+}
+#board {
+    background: none repeat scroll 0 0 green;
+    border: 5px solid #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    height: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    top: 5px;
+    width: 600px;
+    z-index: 3;
+}
+.block-digital {
+    float: left;
+    height: 135px;
+    position: relative;
+    width: 6px;
+    z-index: 10;
+}
+.block-padding {
+    float: left;
+    height: 135px;
+    position: relative;
+    width: 6px;
+    z-index: 10;
+}
+#led-lights {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+}
+#image {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 6;
+}
+.light {
+    background: none repeat scroll 0 0 #222222;
+    border-radius: 2px 2px 2px 2px;
+    height: 2px;
+    margin: 1px;
+    position: absolute;
+    width: 2px;
+}
+
+.block-digital > div > div {
+    background: none repeat scroll 0 0 #222222;
+    /*border-radius: 6px 6px 6px 6px;*/
+    height: 3px;
+    margin: 1px;
+    position: absolute;
+    width: 3px; 
+}
+@-moz-keyframes slash {
+0% {
+    opacity: 1;
+}
+50% {
+    opacity: 0.5;
+}
+100% {
+    opacity: 1;
+}
+}
+
+
+
+
+
+.on {background: none repeat scroll 0 0 #D8B711 !important;}
+
+
+
+/*
+ .col-2,  .col-3,  .col-2,  .col-3,  .col-2,  .col-3,  .col-2,  .col-3 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+
+
+.num-0 .col-2, .num-0 .col-3, .num-0 .col-4, .num-0 .col-1, .num-0 .col-5, .num-0 .col-1, .num-0 .col-4, .num-0 .col-5, .num-0 .col-1, .num-0 .col-3, .num-0 .col-5, .num-0 .col-1, .num-0 .col-1, .num-0 .col-2, .num-0 .col-5, .num-0 .col-1, .num-0 .col-5, .num-0 .col-2, .num-0 .col-3, .num-0 .col-4 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-1 .col-3, .num-1 .col-2, .num-1 .col-3, .num-1 .col-3, .num-1 .col-3, .num-1 .col-3, .num-1 .col-3, .num-1 .col-2, .num-1 .col-3, .num-1 .col-4 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-2 .col-2, .num-2 .col-3, .num-2 .col-4, .num-2 .col-1, .num-2 .col-5, .num-2 .col-5, .num-2 .col-4, .num-2 .col-3, .num-2 .col-2, .num-2 .col-1, .num-2 .col-2, .num-2 .col-3, .num-2 .col-4, .num-2 .col-5 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-3 .col-1, .num-3 .col-2, .num-3 .col-3, .num-3 .col-4, .num-3 .col-5, .num-3 .col-4, .num-3 .col-3, .num-3 .col-4, .num-3 .col-5, .num-3 .col-1, .num-3 .col-5, .num-3 .col-4, .num-3 .col-3, .num-3 .col-2 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-4 .col-4, .num-4 .col-3, .num-4 .col-4, .num-4 .col-2, .num-4 .col-4, .num-4 .col-1, .num-4 .col-4, .num-4 .col-1, .num-4 .col-2, .num-4 .col-3, .num-4 .col-4, .num-4 .col-5, .num-4 .col-4, .num-4 .col-4 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-5 .col-1, .num-5 .col-2, .num-5 .col-3, .num-5 .col-4, .num-5 .col-5, .num-5 .col-1, .num-5 .col-1, .num-5 .col-2, .num-5 .col-3, .num-5 .col-4, .num-5 .col-5, .num-5 .col-5, .num-5 .col-1, .num-5 .col-5, .num-5 .col-2, .num-5 .col-3, .num-5 .col-4 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-6 .col-3, .num-6 .col-4, .num-6 .col-2, .num-6 .col-1, .num-6 .col-1, .num-6 .col-2, .num-6 .col-3, .num-6 .col-4, .num-6 .col-1, .num-6 .col-5, .num-6 .col-1, .num-6 .col-5, .num-6 .col-2, .num-6 .col-3, .num-6 .col-4 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-7 .col-1, .num-7 .col-2, .num-7 .col-3, .num-7 .col-4, .num-7 .col-5, .num-7 .col-5, .num-7 .col-4, .num-7 .col-3, .num-7 .col-2, .num-7 .col-2, .num-7 .col-2 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-8 .col-2, .num-8 .col-3, .num-8 .col-4, .num-8 .col-1, .num-8 .col-5, .num-8 .col-1, .num-8 .col-5, .num-8 .col-2, .num-8 .col-3, .num-8 .col-4, .num-8 .col-1, .num-8 .col-5, .num-8 .col-1, .num-8 .col-5, .num-8 .col-2, .num-8 .col-3, .num-8 .col-4 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+.num-9 .col-2, .num-9 .col-3, .num-9 .col-4, .num-9 .col-1, .num-9 .col-5, .num-9 .col-1, .num-9 .col-5, .num-9 .col-2, .num-9 .col-3, .num-9 .col-4, .num-9 .col-5, .num-9 .col-5, .num-9 .col-4, .num-9 .col-2, .num-9 .col-3 {
+    background: none repeat scroll 0 0 #D8B711;
+}
+
+*/
